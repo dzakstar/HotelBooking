@@ -1,12 +1,18 @@
-﻿using DAL.Models;
+﻿using DAL.Abstractions;
+using DAL.Models;
+using Microsoft.EntityFrameworkCore;
 
 namespace DAL.Repositories
 {
-    public class HotelRepository(HotelBookingContext hotelBookingContext)
+    public class HotelRepository(HotelBookingContext hotelBookingContext) : IHotelRepository
     {
-        public IEnumerable<Hotel> GetByName(string hotelName)
+        public async Task<List<Hotel>> GetByNameAsync(string hotelName)
         {
-            return hotelBookingContext.Hotels.Where(h => h.Name.Equals(hotelName, StringComparison.CurrentCultureIgnoreCase));
+            return await hotelBookingContext.Hotels
+                .Where(h => h.Name == hotelName)
+                .Include(h => h.Rooms)
+                .ThenInclude(r => r.RoomType)
+                .ToListAsync();
         }
     }
 }

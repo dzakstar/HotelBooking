@@ -1,16 +1,9 @@
-﻿using DAL.Models;
+﻿using DAL.Abstractions;
+using DAL.Models;
 using Microsoft.EntityFrameworkCore;
-using Microsoft.EntityFrameworkCore.Metadata.Internal;
 
 namespace DAL
 {
-    public interface IDatabaseService
-    {
-        void Initialize();
-        Task SeedAsync();
-        Task ClearAsync();
-    }
-
     public class DatabaseService(HotelBookingContext hotelBookingContext) : IDatabaseService
     {
         public void Initialize()

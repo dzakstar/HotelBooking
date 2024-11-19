@@ -1,4 +1,4 @@
-using DAL;
+using DAL.Abstractions;
 using Microsoft.AspNetCore.Mvc;
 
 namespace Web.Controllers

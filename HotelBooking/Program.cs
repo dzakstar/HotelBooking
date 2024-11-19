@@ -1,9 +1,12 @@
 using DAL;
 using Microsoft.EntityFrameworkCore;
 using System.Reflection;
+using DAL.Abstractions;
+using DAL.Repositories;
 
 var builder = WebApplication.CreateBuilder(args);
-builder.Services.AddScoped<IDatabaseService, DatabaseService>();
+builder.Services.AddTransient<IDatabaseService, DatabaseService>();
+builder.Services.AddTransient<IHotelRepository, HotelRepository>();
 builder.Services.AddControllers();
 
 builder.Services.AddEndpointsApiExplorer();
