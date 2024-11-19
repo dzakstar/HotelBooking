@@ -5,8 +5,11 @@ using DAL.Abstractions;
 using DAL.Repositories;
 
 var builder = WebApplication.CreateBuilder(args);
+
 builder.Services.AddTransient<IDatabaseService, DatabaseService>();
 builder.Services.AddTransient<IHotelRepository, HotelRepository>();
+builder.Services.AddTransient<IBookingRepository, BookingRepository>();
+
 builder.Services.AddControllers();
 
 builder.Services.AddEndpointsApiExplorer();
