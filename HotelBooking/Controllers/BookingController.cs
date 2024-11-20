@@ -50,8 +50,8 @@ namespace Web.Controllers
         [HttpPost("Availability")]
         public async Task<IActionResult> QueryAvailabilityAsync(AvailabilityRequest availabilityRequest)
         {
-            await bookingService.CheckAvailabilityAsync(availabilityRequest);
-            return Ok();
+            AvailabilityResponse availabilityResponse = await bookingService.CheckAvailabilityAsync(availabilityRequest);
+            return Ok(availabilityResponse);
         }
     }
 }

@@ -15,6 +15,7 @@ builder.Services.AddTransient<IBookingService, BookingService>();
 builder.Services.AddTransient<IHotelService, HotelService>();
 builder.Services.AddTransient<IHotelRepository, HotelRepository>();
 builder.Services.AddTransient<IBookingRepository, BookingRepository>();
+builder.Services.AddTransient<IRoomsRepository, RoomsRepository>();
 
 builder.Services.AddAutoMapper(typeof(BookingProfile));
 builder.Services.AddControllers();
