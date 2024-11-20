@@ -1,5 +1,4 @@
 ﻿using Core.Abstractions;
-using Core.Services;
 using DAL.Abstractions;
 using DAL.Models;
 using Microsoft.AspNetCore.Mvc;
@@ -38,11 +37,21 @@ namespace Web.Controllers
         /// Create a booking.
         /// </summary>
         [HttpPost("/Create")]
-        [ProducesResponseType(typeof(Booking), StatusCodes.Status201Created)]
+        [ProducesResponseType(typeof(BookingResponse), StatusCodes.Status201Created)]
         public async Task<IActionResult> CreateBookingAsync(BookingRequest bookingRequest)
         {
             BookingResponse bookingResponse = await bookingService.MakeBookingAsync(bookingRequest);
             return Ok(bookingResponse);
+        }
+
+        /// <summary>
+        /// Checks room availability by hotel, dates and number of guests
+        /// </summary>
+        [HttpPost("Availability")]
+        public async Task<IActionResult> QueryAvailabilityAsync(AvailabilityRequest availabilityRequest)
+        {
+            await bookingService.CheckAvailabilityAsync(availabilityRequest);
+            return Ok();
         }
     }
 }

@@ -14,7 +14,7 @@ namespace Models
         public DateOnly? DepartureDate { get; set; }
 
         [Required]
-        public int? NumberOfOccupants { get; set; }
+        public int? NumberOfGuests { get; set; }
 
         [Required]
         public int? RoomId { get; set; }
@@ -26,9 +26,9 @@ namespace Models
                 yield return new ValidationResult("Departure date must be after arrival date.");
             }
 
-            if (NumberOfOccupants <= 0)
+            if (NumberOfGuests <= 0)
             {
-                yield return new ValidationResult("A booking must be for at least 1 occupant.");
+                yield return new ValidationResult("A booking must be for at least 1 guest.");
             }
 
             if (RoomId <= 0)

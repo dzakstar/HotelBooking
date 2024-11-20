@@ -47,6 +47,6 @@ app.Run();
 void CreateDatabaseIfNotExists()
 {
     using IServiceScope scope = app.Services.CreateScope();
-    var database = scope.ServiceProvider.GetRequiredService<Core.Abstractions.IDataService>();
+    var database = scope.ServiceProvider.GetRequiredService<IDataService>();
     database.InitializeDataStore();
 }

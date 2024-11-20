@@ -1,6 +1,4 @@
-﻿using System.Runtime.InteropServices.JavaScript;
-
-namespace DAL.Models
+﻿namespace DAL.Models
 {
     public class Booking
     {
@@ -10,6 +8,6 @@ namespace DAL.Models
         public DateOnly DepartureDate { get; set; }
         public string Name { get; set; }
         public Room Room { get; set; }
-        public int NumberOfOccupants { get; set; }
+        public int NumberOfGuests { get; set; }
     }
 }

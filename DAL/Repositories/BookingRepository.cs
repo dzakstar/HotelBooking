@@ -21,5 +21,14 @@ namespace DAL.Repositories
 
             return createdRecords;
         }
+
+        public async Task<List<Booking>> QueryByHotelId(int hotelId)
+        {
+            return await hotelBookingContext.Bookings
+                .Include(b => b.Room)
+                .ThenInclude(r => r.RoomType)
+                .Where(b => b.Room.HotelId == hotelId)
+                .ToListAsync();
+        }
     }
 }
