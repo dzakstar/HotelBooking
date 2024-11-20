@@ -31,14 +31,8 @@ namespace Core.Services
                                  throw new ArgumentException("The number of guests must be provided in the request.");
 
             var bookings = await bookingRepository.QueryByHotelId(hotelId);
-
-            IEnumerable<int> bookedRoomIds = bookings
-                .Where(b => QueryRangeClashesWithBooking(availabilityRequest, b))
-                .Where(b => b.Room.RoomType.Capacity >= numberOfGuests)
-                .ToList().Select(b => b.RoomId);
-
-            List<Room> roomsWithCapacity = await roomsRepository
-                .GetRoomsWithCapacity(numberOfGuests, hotelId);
+            IEnumerable<int> bookedRoomIds = GetUnavailableRoomIds(availabilityRequest, bookings, numberOfGuests);
+            List<Room> roomsWithCapacity = await roomsRepository.GetRoomsWithCapacity(numberOfGuests, hotelId);
 
             IEnumerable<Room> availableRooms = roomsWithCapacity.Where(r => !bookedRoomIds.Contains(r.Id));
 
@@ -46,6 +40,15 @@ namespace Core.Services
             {
                 AvailableRooms = availableRooms
             };
+        }
+
+        private IEnumerable<int> GetUnavailableRoomIds(AvailabilityRequest availabilityRequest, List<Booking> bookings, int numberOfGuests)
+        {
+            IEnumerable<int> bookedRoomIds = bookings
+                .Where(b => QueryRangeClashesWithBooking(availabilityRequest, b))
+                .Where(b => b.Room.RoomType.Capacity >= numberOfGuests)
+                .ToList().Select(b => b.RoomId);
+            return bookedRoomIds;
         }
 
         private bool QueryRangeClashesWithBooking(AvailabilityRequest availabilityRequest, Booking booking)
