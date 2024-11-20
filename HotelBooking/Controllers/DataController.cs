@@ -1,4 +1,4 @@
-using DAL.Abstractions;
+using Core.Abstractions;
 using Microsoft.AspNetCore.Mvc;
 
 namespace Web.Controllers
@@ -9,26 +9,25 @@ namespace Web.Controllers
     [ApiController]
     [Route("[controller]")]
 
-    public class DataController(
-        IDatabaseService databaseService) : ControllerBase
+    public class DataController(IDataService dataService) : ControllerBase
     {
         /// <summary>
-        /// Add Seed values to database. Bookings will NOT be added. Calling this endpoint
+        /// Add Seed values to data store. Bookings will NOT be added. Calling this endpoint
         /// more than once will result in duplicate data.
         /// </summary>
         [HttpGet("Seed")]
         public async Task SeedAsync()
         {
-            await databaseService.SeedAsync();
+            await dataService.SeedAsync();
         }
 
         /// <summary>
-        /// Clears ALL data fom the database.
+        /// Clears ALL data fom the data store.
         /// </summary>
         [HttpGet("Clear")]
         public async Task ClearAsync()
         {
-            await databaseService.ClearAsync();
+            await dataService.ClearAsync();
         }
     }
 }

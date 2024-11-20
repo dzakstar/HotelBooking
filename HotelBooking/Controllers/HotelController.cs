@@ -1,6 +1,6 @@
-﻿using DAL.Abstractions;
-using DAL.Models;
+﻿using DAL.Models;
 using Microsoft.AspNetCore.Mvc;
+using Core.Abstractions;
 
 namespace Web.Controllers
 {
@@ -10,8 +10,7 @@ namespace Web.Controllers
     [ApiController]
     [Route("[controller]")]
 
-    public class HotelController(
-        IHotelRepository hotelRepository) : ControllerBase
+    public class HotelController(IHotelService hotelService) : ControllerBase
     {
         /// <summary>
         /// Searches for Hotels by name (case-insensitive).
@@ -21,7 +20,7 @@ namespace Web.Controllers
         [ProducesResponseType(StatusCodes.Status404NotFound)]
         public async Task<IActionResult> FindByNameAsync(string hotelName)
         {
-            List<Hotel> hotels = await hotelRepository.GetByNameAsync(hotelName);
+            List<Hotel> hotels = await hotelService.GetByNameAsync(hotelName);
 
             if (hotels.Count == 0)
             {

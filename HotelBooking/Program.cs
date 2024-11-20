@@ -1,17 +1,23 @@
 using DAL;
 using Microsoft.EntityFrameworkCore;
 using System.Reflection;
+using Core.Abstractions;
+using Core.Services;
 using DAL.Abstractions;
 using DAL.Repositories;
+using Models.Mappers;
 
 var builder = WebApplication.CreateBuilder(args);
 
-builder.Services.AddTransient<IDatabaseService, DatabaseService>();
+builder.Services.AddTransient<IDataService, DataService>();
+builder.Services.AddTransient<IDataStoreService, DataStoreService>();
+builder.Services.AddTransient<IBookingService, BookingService>();
+builder.Services.AddTransient<IHotelService, HotelService>();
 builder.Services.AddTransient<IHotelRepository, HotelRepository>();
 builder.Services.AddTransient<IBookingRepository, BookingRepository>();
 
+builder.Services.AddAutoMapper(typeof(BookingProfile));
 builder.Services.AddControllers();
-
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen(options =>
 {
@@ -41,6 +47,6 @@ app.Run();
 void CreateDatabaseIfNotExists()
 {
     using IServiceScope scope = app.Services.CreateScope();
-    var database = scope.ServiceProvider.GetRequiredService<IDatabaseService>();
-    database.Initialize();
+    var database = scope.ServiceProvider.GetRequiredService<Core.Abstractions.IDataService>();
+    database.InitializeDataStore();
 }

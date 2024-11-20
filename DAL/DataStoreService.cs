@@ -4,7 +4,7 @@ using Microsoft.EntityFrameworkCore;
 
 namespace DAL
 {
-    public class DatabaseService(HotelBookingContext hotelBookingContext) : IDatabaseService
+    public class DataStoreService(HotelBookingContext hotelBookingContext) : IDataStoreService
     {
         public void Initialize()
         {

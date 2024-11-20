@@ -1,6 +1,9 @@
-﻿using DAL.Abstractions;
+﻿using Core.Abstractions;
+using Core.Services;
+using DAL.Abstractions;
 using DAL.Models;
 using Microsoft.AspNetCore.Mvc;
+using Models;
 
 namespace Web.Controllers
 {
@@ -11,7 +14,7 @@ namespace Web.Controllers
     [Route("[controller]")]
 
     public class BookingController(
-        IBookingRepository bookingRepository) : ControllerBase
+        IBookingRepository bookingRepository, IBookingService bookingService) : ControllerBase
     {
         /// <summary>
         /// Retrieves a Booking by ID.
@@ -19,6 +22,7 @@ namespace Web.Controllers
         [HttpGet("/{bookingId}")]
         [ProducesResponseType(typeof(Booking),StatusCodes.Status200OK)]
         [ProducesResponseType(StatusCodes.Status404NotFound)]
+        [ProducesResponseType(StatusCodes.Status400BadRequest)]
         public async Task<IActionResult> FindByNameAsync(int bookingId)
         {
             Booking? booking = await bookingRepository.GetByIdAsync(bookingId);
@@ -28,6 +32,17 @@ namespace Web.Controllers
                 return NotFound();
             }
             return Ok(booking);
+        }
+
+        /// <summary>
+        /// Create a booking.
+        /// </summary>
+        [HttpPost("/Create")]
+        [ProducesResponseType(typeof(Booking), StatusCodes.Status201Created)]
+        public async Task<IActionResult> CreateBookingAsync(BookingRequest bookingRequest)
+        {
+            BookingResponse bookingResponse = await bookingService.MakeBookingAsync(bookingRequest);
+            return Ok(bookingResponse);
         }
     }
 }

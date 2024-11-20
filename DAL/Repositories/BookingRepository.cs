@@ -13,5 +13,13 @@ namespace DAL.Repositories
                 .Include(b => b.Room)
                 .SingleOrDefaultAsync();
         }
+
+        public async Task<int> CreateAsync(Booking booking)
+        {
+            hotelBookingContext.Add(booking);
+            int createdRecords = await hotelBookingContext.SaveChangesAsync();
+
+            return createdRecords;
+        }
     }
 }

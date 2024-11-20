@@ -1,6 +1,6 @@
 ﻿namespace DAL.Abstractions;
 
-public interface IDatabaseService
+public interface IDataStoreService
 {
     void Initialize();
     Task SeedAsync();
