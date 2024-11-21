@@ -22,18 +22,19 @@ namespace Core.Services
         public async Task<AvailabilityResponse> CheckAvailabilityAsync(AvailabilityRequest availabilityRequest)
         {
             int hotelId = availabilityRequest.HotelId ??
-                          throw new ArgumentException("A hotel Id must be provided in the request.");
+                          throw new ArgumentException("A hotel Id must be provided in the request.", nameof(availabilityRequest));
+
             DateOnly arrivalDate = availabilityRequest.ArrivalDate ??
-                                   throw new ArgumentException("An arrival date must be provided in the request.");
+                                   throw new ArgumentException("An arrival date must be provided in the request.", nameof(availabilityRequest));
             DateOnly departureDate = availabilityRequest.DepartureDate ??
-                                     throw new ArgumentException("A departure date must be provided in the request.");
+                                     throw new ArgumentException("A departure date must be provided in the request.", nameof(availabilityRequest));
             int numberOfGuests = availabilityRequest.NumberOfGuests ??
-                                 throw new ArgumentException("The number of guests must be provided in the request.");
+                                 throw new ArgumentException("The number of guests must be provided in the request.", nameof(availabilityRequest));
 
             var bookings = await bookingRepository.QueryByHotelId(hotelId);
             IEnumerable<int> bookedRoomIds = GetUnavailableRoomIds(availabilityRequest, bookings, numberOfGuests);
+           
             List<Room> roomsWithCapacity = await roomsRepository.GetRoomsWithCapacity(numberOfGuests, hotelId);
-
             IEnumerable<Room> availableRooms = roomsWithCapacity.Where(r => !bookedRoomIds.Contains(r.Id));
 
             return new AvailabilityResponse
