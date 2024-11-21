@@ -3,7 +3,7 @@
 ## Introduction
 
 This code would be best considered as a work-in-progress.
-There are still some missing elements, such as robust input validation and the logic surrounding checking the validity of a booking being request.
+There are still some missing elements, such as robust input validation and the logic surrounding checking the validity of a booking being requested.
 
 On first run the database will be created in the default LocalDB instance. It won't, however, be seeded - there is an API endpoint for that.
 
