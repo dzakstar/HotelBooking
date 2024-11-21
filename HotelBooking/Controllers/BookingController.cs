@@ -48,6 +48,7 @@ namespace Web.Controllers
         /// Checks room availability by hotel, dates and number of guests
         /// </summary>
         [HttpPost("Availability")]
+        [ProducesResponseType(typeof(AvailabilityResponse), StatusCodes.Status200OK)]
         public async Task<IActionResult> QueryAvailabilityAsync(AvailabilityRequest availabilityRequest)
         {
             AvailabilityResponse availabilityResponse = await bookingService.CheckAvailabilityAsync(availabilityRequest);
