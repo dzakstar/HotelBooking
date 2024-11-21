@@ -18,6 +18,12 @@ namespace Core.Services
             return bookingResponse;
         }
 
+        public async Task<BookingResponse> GetBookingById(int bookingId)
+        {
+            Booking? booking = await bookingRepository.GetByIdAsync(bookingId);
+            var bookingResponse = mapper.Map<BookingResponse>(booking);
+            return bookingResponse;
+        }
 
         public async Task<AvailabilityResponse> CheckAvailabilityAsync(AvailabilityRequest availabilityRequest)
         {

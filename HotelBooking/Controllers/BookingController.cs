@@ -12,27 +12,24 @@ namespace Web.Controllers
     [ApiController]
     [Route("[controller]")]
 
-    public class BookingController(
-        IBookingRepository bookingRepository, 
-        IRoomService roomService,
+    public class BookingController(IRoomService roomService,
         IBookingService bookingService) : ControllerBase
     {
         /// <summary>
         /// Retrieves a Booking by ID.
         /// </summary>
         [HttpGet("/{bookingId}")]
-        [ProducesResponseType(typeof(Booking),StatusCodes.Status200OK)]
+        [ProducesResponseType(typeof(BookingResponse),StatusCodes.Status200OK)]
         [ProducesResponseType(StatusCodes.Status404NotFound)]
         [ProducesResponseType(StatusCodes.Status400BadRequest)]
-        public async Task<IActionResult> FindByNameAsync(int bookingId)
+        public async Task<IActionResult> GetByIdAsync(int bookingId)
         {
-            Booking? booking = await bookingRepository.GetByIdAsync(bookingId);
-
-            if (booking is null)
+            BookingResponse? bookingResponse = await bookingService.GetBookingById(bookingId);
+            if (bookingResponse is null)
             {
                 return NotFound();
             }
-            return Ok(booking);
+            return Ok(bookingResponse);
         }
 
         /// <summary>

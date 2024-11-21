@@ -11,7 +11,10 @@ namespace Models.Mappers
             CreateMap<Booking, BookingResponse>()
                 .ForMember(dest =>
                         dest.BookingReference,
-                    opt => opt.MapFrom(src => src.Id));
+                    opt => opt.MapFrom(src => src.Id))
+                .ForMember(dest => dest.HotelId,
+                    opt => opt.MapFrom(src => src.Room.HotelId))
+                .ForMember(dest => dest.RoomId, opt => opt.MapFrom(src => src.RoomId));
         }
     }
 }

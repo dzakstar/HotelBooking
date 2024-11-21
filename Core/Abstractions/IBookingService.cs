@@ -6,4 +6,5 @@ public interface IBookingService
 {
     Task<BookingResponse> MakeBookingAsync(BookingRequest bookingRequest);
     Task<AvailabilityResponse> CheckAvailabilityAsync(AvailabilityRequest availabilityRequest);
+    Task<BookingResponse> GetBookingById(int bookingId);
 }
