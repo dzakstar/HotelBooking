@@ -13,6 +13,8 @@ builder.Services.AddTransient<IDataService, DataService>();
 builder.Services.AddTransient<IDataStoreService, DataStoreService>();
 builder.Services.AddTransient<IBookingService, BookingService>();
 builder.Services.AddTransient<IHotelService, HotelService>();
+builder.Services.AddTransient<IRoomService, RoomService>();
+
 builder.Services.AddTransient<IHotelRepository, HotelRepository>();
 builder.Services.AddTransient<IBookingRepository, BookingRepository>();
 builder.Services.AddTransient<IRoomsRepository, RoomsRepository>();

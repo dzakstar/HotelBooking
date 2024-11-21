@@ -13,7 +13,9 @@ namespace Web.Controllers
     [Route("[controller]")]
 
     public class BookingController(
-        IBookingRepository bookingRepository, IBookingService bookingService) : ControllerBase
+        IBookingRepository bookingRepository, 
+        IRoomService roomService,
+        IBookingService bookingService) : ControllerBase
     {
         /// <summary>
         /// Retrieves a Booking by ID.
@@ -38,8 +40,18 @@ namespace Web.Controllers
         /// </summary>
         [HttpPost("/Create")]
         [ProducesResponseType(typeof(BookingResponse), StatusCodes.Status201Created)]
+        [ProducesResponseType(typeof(BookingResponse), StatusCodes.Status400BadRequest)]
         public async Task<IActionResult> CreateBookingAsync(BookingRequest bookingRequest)
         {
+            var roomId = bookingRequest.RoomId.Value;
+            var numberOfGuests = bookingRequest.NumberOfGuests.Value;
+
+            bool isRoomCapacityExceeded = await roomService.IsRoomCapacityExceeded(roomId, numberOfGuests);
+            if (isRoomCapacityExceeded)
+            {
+                return BadRequest();
+            }
+            
             BookingResponse bookingResponse = await bookingService.MakeBookingAsync(bookingRequest);
             return Ok(bookingResponse);
         }

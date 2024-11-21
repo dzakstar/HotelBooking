@@ -5,4 +5,5 @@ namespace DAL.Abstractions;
 public interface IRoomsRepository
 {
     Task<List<Room>> GetRoomsWithCapacity(int numberOfGuests, int hotelId);
+    Task<Room> GetById(int roomId);
 }

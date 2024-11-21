@@ -14,5 +14,13 @@ namespace DAL.Repositories
                 .Where(r => r.RoomType.Capacity >= numberOfGuests && r.HotelId == hotelId)
                 .ToListAsync();
         }
+
+        public async Task<Room> GetById(int roomId)
+        {
+            return await hotelBookingContext.Rooms.Include(r => r.RoomType)
+                .Where(r => r.Id == roomId)
+                .SingleAsync();
+
+        }
     }
 }
